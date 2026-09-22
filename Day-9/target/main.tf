@@ -13,4 +13,6 @@ resource "aws_subnet" "dev1_subnet" {
 }
 
 resource "aws_instance" "dev2" {
+    ami = "ami-0d810b4169227c0ca"
+    instance_type = "t3.micro"
 }
