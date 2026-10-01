@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-east-1"
+  region = "ap-south-2"
 }
 
 # -----------------------------
@@ -19,13 +19,13 @@ resource "aws_vpc" "dev" {
 
 # -----------------------------
 # SUBNET 1
-# Availability Zone: us-east-1a
+# Availability Zone: ap-south-2a
 # -----------------------------
 
 resource "aws_subnet" "sub-1" {
   vpc_id            = aws_vpc.dev.id
   cidr_block        = "10.0.1.0/24"
-  availability_zone = "us-east-1a"
+  availability_zone = "ap-south-2a"
 
   tags = {
     Name = "subnet-1"
@@ -34,13 +34,13 @@ resource "aws_subnet" "sub-1" {
 
 # -----------------------------
 # SUBNET 2
-# Availability Zone: us-east-1c
+# Availability Zone: ap-south-2b
 # -----------------------------
 
 resource "aws_subnet" "sub-2" {
   vpc_id            = aws_vpc.dev.id
   cidr_block        = "10.0.2.0/24"
-  availability_zone = "us-east-1c"
+  availability_zone = "ap-south-2b"
 
   tags = {
     Name = "subnet-2"
