@@ -34,6 +34,14 @@ pipeline {
             }
         }
 
+        stage('Fmt Check') {
+            steps {
+                dir('Jenkins/Day-14_Jenkins-Script-Files') {
+                    sh 'terraform fmt -check'
+                }
+            }
+        }
+
         stage('Plan') {
             when {
                 expression {
