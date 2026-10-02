@@ -1,0 +1,86 @@
+pipeline {
+    agent any
+
+    parameters {
+        choice(
+            name: 'ACTION',
+            choices: ['Apply', 'Destroy'],
+            description: 'Select the Terraform action'
+        )
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/Manohar7104/terraform.git'
+            }
+        }
+
+        stage('Init') {
+            steps {
+                dir('Jenkins/Day-14_Jenkins-Script-Files') {
+                    sh 'terraform init'
+                }
+            }
+        }
+
+        stage('Validate') {
+            steps {
+                dir('Jenkins/Day-14_Jenkins-Script-Files') {
+                    sh 'terraform validate'
+                }
+            }
+        }
+
+        stage('Plan') {
+            when {
+                expression {
+                    params.ACTION == 'Apply'
+                }
+            }
+
+            steps {
+                dir('Jenkins/Day-14_Jenkins-Script-Files') {
+                    sh 'terraform plan'
+                }
+            }
+        }
+
+        stage('Approval') {
+            steps {
+                input(
+                    message: "You selected ${params.ACTION}. Continue?",
+                    ok: 'Proceed'
+                )
+            }
+        }
+
+        stage('Execute') {
+            steps {
+                script {
+                    if (params.ACTION == 'Apply') {
+                        dir('Jenkins/Day-14_Jenkins-Script-Files') {
+                            sh 'terraform apply -auto-approve'
+                        }
+                    } else {
+                        dir('Jenkins/Day-14_Jenkins-Script-Files') {
+                            sh 'terraform destroy -auto-approve'
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Terraform operation completed successfully'
+        }
+
+        failure {
+            echo 'Terraform operation failed'
+        }
+    }
+}
