@@ -3,3 +3,5 @@
 *.tfstate.*
 .doc
 *.pem
+tfplan
+*.tfplan

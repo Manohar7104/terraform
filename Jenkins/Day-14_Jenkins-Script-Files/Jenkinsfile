@@ -43,7 +43,7 @@ pipeline {
 
             steps {
                 dir('Jenkins/Day-14_Jenkins-Script-Files') {
-                    sh 'terraform plan'
+                    sh 'terraform plan -out=tfplan'
                 }
             }
         }
@@ -62,7 +62,7 @@ pipeline {
                 script {
                     if (params.ACTION == 'Apply') {
                         dir('Jenkins/Day-14_Jenkins-Script-Files') {
-                            sh 'terraform apply -auto-approve'
+                            sh 'terraform apply -auto-approve tfplan'
                         }
                     } else {
                         dir('Jenkins/Day-14_Jenkins-Script-Files') {
