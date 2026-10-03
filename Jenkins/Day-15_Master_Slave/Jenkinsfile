@@ -4,10 +4,26 @@ pipeline {
     }
 
     stages {
-        stage('clone') {
+
+        stage('Clone') {
             steps {
                 git branch: 'main',
                     url: 'https://github.com/Manohar7104/terraform.git'
+            }
+        }
+
+        stage('Check Agent') {
+            steps {
+                sh '''
+                    echo "Running on:"
+                    hostname
+
+                    echo "Current user:"
+                    whoami
+
+                    echo "Workspace:"
+                    pwd
+                '''
             }
         }
     }
